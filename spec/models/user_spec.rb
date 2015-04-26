@@ -25,4 +25,27 @@ describe User do
     end
   end
 
+  describe "#user?" do
+    let(:user) { build :user }
+
+    it "returns true when user has role user" do
+      expect(user.user?).to be_truthy
+    end
+  end
+
+  describe "#admin?" do
+    let(:user) { build :user, :admin }
+
+    it "returns true when user has role admin" do
+      expect(user.admin?).to be_truthy
+    end
+  end
+
+  describe "#guest?" do
+    let(:user) { build :user, :guest }
+
+    it "returns true when user has role guest" do
+      expect(user.guest?).to be_truthy
+    end
+  end
 end
