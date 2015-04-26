@@ -25,13 +25,13 @@ describe User do
     end
 
     it "sets name 'Guest'" do
-      user.save
+      user.validate
       expect(user.name).to eq "Guest"
     end
 
     it "removes email" do
       user.email = "test@example.com"
-      user.save
+      user.validate
 
       expect(user.email).to be_nil
     end
