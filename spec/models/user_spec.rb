@@ -23,6 +23,18 @@ describe User do
     it "allows empty email and password" do
       expect(user).to be_valid
     end
+
+    it "sets name 'Guest'" do
+      user.save
+      expect(user.name).to eq "Guest"
+    end
+
+    it "removes email" do
+      user.email = "test@example.com"
+      user.save
+
+      expect(user.email).to be_nil
+    end
   end
 
   describe "#user?" do
