@@ -34,6 +34,9 @@ gem 'active_model_serializers'
 # Responders
 gem 'responders', '~> 2.0'
 
+# Authorization system
+gem "pundit"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
