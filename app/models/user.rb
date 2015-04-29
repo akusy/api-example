@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     role == "guest"
   end
 
+  def self.create_guest
+    create role: "guest"
+  end
+
   private
 
   def set_guest
