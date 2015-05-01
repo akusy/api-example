@@ -2,7 +2,7 @@ module Api
   class ApplicationController < ::ApplicationController
     skip_before_action  :verify_authenticity_token
 
-    before_action :authenticate_or_set_guest
+    before_action :http_authenticate_user
 
     respond_to :json
 
@@ -10,9 +10,8 @@ module Api
       @current_user
     end
 
-    def authenticate_or_set_guest
+    def http_authenticate_user
       authenticate_or_request_with_http_basic("Application") do |email, password|
-        return set_guest_user unless email.present?
         if user = User.find_by(email: email)
           @current_user = user.authenticate(password)
         end
