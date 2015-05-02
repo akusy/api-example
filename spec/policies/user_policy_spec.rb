@@ -20,4 +20,16 @@ describe UserPolicy do
       end
     end
   end
+
+  [:create?, :index?].each do |method|
+    permissions method do
+      it "denies access if user is not admin" do
+        expect(subject).not_to permit(guest, user)
+      end
+
+      it "grants access if user is admin" do
+        expect(subject).to permit(admin, user)
+      end
+    end
+  end
 end
