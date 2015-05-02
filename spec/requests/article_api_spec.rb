@@ -9,7 +9,7 @@ describe 'Article API' do
 
     [:get, :put, :delete].each do |method|
       it "returns not found" do
-        send(method, "/api/users/#{user.id}/articles/12343", {}, auth_header)
+        send(method, "/api/users/#{ user.id }/articles/12343", {}, auth_header)
 
         expect(response.code).to eq("404")
       end
@@ -18,7 +18,7 @@ describe 'Article API' do
 
   context "When article is fetched" do
     before do
-      get "/api/users/#{user.id}/articles/#{ article.id }", {}
+      get "/api/users/#{ user.id }/articles/#{ article.id }", {}
     end
 
     it "returns article json" do
@@ -30,7 +30,7 @@ describe 'Article API' do
 
   context "When articles are fetched" do
     before do
-      get "/api/users/#{user.id}/articles/", { page: 1 }
+      get "/api/users/#{ user.id }/articles/", { page: 1 }
     end
 
     it "returns article json" do
@@ -42,7 +42,7 @@ describe 'Article API' do
 
   context "When article is updated" do
     before do
-      put "/api/users/#{user.id}/articles/#{ article.id }", { article: params }, auth_header
+      put "/api/users/#{ user.id }/articles/#{ article.id }", { article: params }, auth_header
     end
 
     it "returns article json" do
@@ -54,7 +54,7 @@ describe 'Article API' do
 
   context "When article is updated" do
     before do
-      post "/api/users/#{user.id}/articles/", { article: params }, auth_header
+      post "/api/users/#{ user.id }/articles/", { article: params }, auth_header
     end
 
     it "returns new article json" do
@@ -66,7 +66,7 @@ describe 'Article API' do
 
   context "When article is destroyed" do
     before do
-      delete "/api/users/#{user.id}/articles/#{ article.id }", {}, auth_header
+      delete "/api/users/#{ user.id }/articles/#{ article.id }", {}, auth_header
     end
 
     it "returns no content" do
