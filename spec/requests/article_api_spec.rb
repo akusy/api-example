@@ -18,7 +18,7 @@ describe 'Article API' do
 
   context "When article is fetched" do
     before do
-      get "/api/users/#{user.id}/articles/#{ article.id }", {}, auth_header
+      get "/api/users/#{user.id}/articles/#{ article.id }", {}
     end
 
     it "returns article json" do
@@ -30,7 +30,7 @@ describe 'Article API' do
 
   context "When articles are fetched" do
     before do
-      get "/api/users/#{user.id}/articles/", { page: 1 }, auth_header
+      get "/api/users/#{user.id}/articles/", { page: 1 }
     end
 
     it "returns article json" do
