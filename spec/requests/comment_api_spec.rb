@@ -10,7 +10,7 @@ describe 'Comment API' do
 
     [:get, :put, :delete].each do |method|
       it "returns not found" do
-        send(method, "/api/users/#{ user.id }/articles/#{article.id}/comments/12343", {}, auth_header)
+        send(method, "/api/users/#{ user.id }/articles/#{ article.id }/comments/12343", {}, auth_header)
 
         expect(response.code).to eq("404")
       end
@@ -19,7 +19,7 @@ describe 'Comment API' do
 
   context "When comment is fetched" do
     before do
-      get "/api/users/#{ user.id }/articles/#{article.id}/comments/#{ comment.id }", {}
+      get "/api/users/#{ user.id }/articles/#{ article.id }/comments/#{ comment.id }", {}
     end
 
     it "returns comment json" do
@@ -31,7 +31,7 @@ describe 'Comment API' do
 
   context "When comments are fetched" do
     before do
-      get "/api/users/#{ user.id }/articles/#{article.id}/comments/", { page: 1 }
+      get "/api/users/#{ user.id }/articles/#{ article.id }/comments/", { page: 1 }
     end
 
     it "returns comment json" do
@@ -43,7 +43,7 @@ describe 'Comment API' do
 
   context "When comment is updated" do
     before do
-      put "/api/users/#{ user.id }/articles/#{article.id}/comments/#{ comment.id }", { comment: params }, auth_header
+      put "/api/users/#{ user.id }/articles/#{ article.id }/comments/#{ comment.id }", { comment: params }, auth_header
     end
 
     it "returns comment json" do
@@ -54,7 +54,7 @@ describe 'Comment API' do
 
   context "When comment is updated" do
     before do
-      post "/api/users/#{ user.id }/articles/#{article.id}/comments/", { comment: params }, auth_header
+      post "/api/users/#{ user.id }/articles/#{ article.id }/comments/", { comment: params }, auth_header
     end
 
     it "returns new comment json" do
@@ -65,7 +65,7 @@ describe 'Comment API' do
 
   context "When comment is destroyed" do
     before do
-      delete "/api/users/#{ user.id }/articles/#{article.id}/comments/#{ comment.id }", {}, auth_header
+      delete "/api/users/#{ user.id }/articles/#{ article.id }/comments/#{ comment.id }", {}, auth_header
     end
 
     it "returns no content" do
