@@ -62,4 +62,12 @@ describe User do
       expect(user.guest?).to be_truthy
     end
   end
+
+  describe '.create_guest' do
+    it 'creates guest user' do
+      expect(User).to receive(:create).with(role: 'guest')
+
+      User.create_guest
+    end
+  end
 end
