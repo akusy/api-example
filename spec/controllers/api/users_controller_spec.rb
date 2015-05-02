@@ -71,9 +71,6 @@ describe Api::UsersController do
 
       it { is_expected.to respond_with(:no_content) }
     end
-  end
-
-  context "With basic authentication" do
 
     context "With admin authorization" do
       let(:admin) { create(:user, :admin) }
