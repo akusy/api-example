@@ -13,6 +13,7 @@ module Api
     end
 
     def update
+      authorize(comment)
       if comment.update(update_comment_params)
         render json: comment
       else
@@ -21,7 +22,8 @@ module Api
     end
 
     def create
-      comment = article.comments.new(create_comment_params)
+      comment = article.comments.new(create_comment_params.merge(user: user))
+      authorize(comment)
       if comment.save
         render json: comment
       else
@@ -30,13 +32,14 @@ module Api
     end
 
     def destroy
+      authorize(comment)
       respond_with comment.destroy
     end
 
     private
 
     def comment
-      article.comments.find(params[:id])
+      @comment ||= article.comments.find(params[:id])
     end
 
     def article
