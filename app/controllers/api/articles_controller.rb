@@ -13,6 +13,7 @@ module Api
     end
 
     def update
+      authorize(article)
       if article.update(update_article_params)
         render json: article
       else
@@ -22,6 +23,7 @@ module Api
 
     def create
       article = user.articles.new(create_article_params)
+      authorize(article)
       if article.save
         render json: article
       else
@@ -30,13 +32,14 @@ module Api
     end
 
     def destroy
+      authorize(article)
       respond_with article.destroy
     end
 
     private
 
     def article
-      user.articles.find(params[:id])
+      @article ||= user.articles.find(params[:id])
     end
 
     def user
