@@ -1,10 +1,15 @@
 module Api
   class ApplicationController < ::ApplicationController
+    include Pundit
+
+    after_action :verify_authorized
+
     skip_before_action  :verify_authenticity_token
 
     respond_to :json
 
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
     def current_user
       @current_user
@@ -44,6 +49,10 @@ module Api
 
     def record_not_found
       head :not_found
+    end
+
+    def not_authorized
+      head :unauthorized
     end
   end
 end

@@ -64,14 +64,6 @@ describe Api::UsersController do
       it { is_expected.to respond_with(:ok) }
     end
 
-    describe "#index" do
-      before do
-        get :index, format: :json
-      end
-
-      it { is_expected.to respond_with(:ok) }
-    end
-
     describe "#destroy" do
       before do
         delete :destroy, id: user.id, format: :json
@@ -79,24 +71,61 @@ describe Api::UsersController do
 
       it { is_expected.to respond_with(:no_content) }
     end
+  end
 
-    describe "#create" do
-      let(:params) { { name: "test", email: "john@example.com", password: "testtest", role: "user" } }
+  context "With basic authentication" do
 
-      it "returns status 200" do
-        post :create, user: params, format: :json
+    context "With admin authorization" do
+      let(:admin) { create(:user, :admin) }
 
-        is_expected.to respond_with(:ok)
+      before { http_authenticate_or_request admin.email, admin.password }
+
+      describe "#index" do
+        before do
+          get :index, format: :json
+        end
+
+        it { is_expected.to respond_with(:ok) }
       end
 
-      context "When user is not valid" do
-        it "returns status 422" do
-          post :create, user: params.slice(:email), format: :json
+      describe "#create" do
+        let(:params) { { name: "test", email: "john@example.com", password: "testtest", role: "user" } }
 
-          is_expected.to respond_with(:unprocessable_entity)
+        it "returns status 200" do
+          post :create, user: params, format: :json
+
+          is_expected.to respond_with(:ok)
+        end
+
+        context "When user is not valid" do
+          it "returns status 422" do
+            post :create, user: params.slice(:email), format: :json
+
+            is_expected.to respond_with(:unprocessable_entity)
+          end
         end
       end
+    end
 
+    context "Without admin authorization" do
+      before { http_authenticate_or_request user.email, user.password }
+
+      describe "#index" do
+        before do
+          get :index, format: :json
+        end
+
+        it { is_expected.to respond_with(:unauthorized) }
+      end
+
+      describe "#create" do
+        let(:params) { { name: "test", email: "john@example.com", password: "testtest", role: "user" } }
+
+        before { post :create, user: params, format: :json }
+
+        it { is_expected.to respond_with(:unauthorized) }
+
+      end
     end
   end
 end
