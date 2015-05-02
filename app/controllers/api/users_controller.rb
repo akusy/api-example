@@ -11,8 +11,17 @@ module Api
       respond_with User.page(page)
     end
 
+    def create
+      user = User.new(create_user_params)
+      if user.save
+        render json: user
+      else
+        render json: { errors: user.errors.messages }, status: :unprocessable_entity
+      end
+    end
+
     def update
-      if user.update(user_params)
+      if user.update(update_user_params)
         render json: user
       else
         render json: { errors: user.errors.messages }, status: :unprocessable_entity
@@ -29,8 +38,12 @@ module Api
       User.find(params[:id])
     end
 
-    def user_params
+    def update_user_params
       params.require(:user).permit(:email, :name, :password)
+    end
+
+    def create_user_params
+      params.require(:user).permit(:email, :name, :password, :role)
     end
   end
 end

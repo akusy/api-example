@@ -20,7 +20,7 @@ describe Api::UsersController do
 
     describe "#destroy" do
       before do
-        get :destroy, id: user.id, format: :json
+        delete :destroy, id: user.id, format: :json
       end
 
       it { is_expected.to respond_with(:unauthorized) }
@@ -28,7 +28,15 @@ describe Api::UsersController do
 
     describe "#update" do
       before do
-        get :update, id: user.id, format: :json
+        put :update, id: user.id, format: :json
+      end
+
+      it { is_expected.to respond_with(:unauthorized) }
+    end
+
+    describe "#create" do
+      before do
+        post :create, format: :json
       end
 
       it { is_expected.to respond_with(:unauthorized) }
@@ -50,7 +58,7 @@ describe Api::UsersController do
 
     describe "#update" do
       before do
-        get :update, id: user.id, user: { name: "test" }, format: :json
+        put :update, id: user.id, user: { name: "test" }, format: :json
       end
 
       it { is_expected.to respond_with(:ok) }
@@ -66,10 +74,29 @@ describe Api::UsersController do
 
     describe "#destroy" do
       before do
-        get :destroy, id: user.id, format: :json
+        delete :destroy, id: user.id, format: :json
       end
 
-      it { is_expected.to respond_with(:ok) }
+      it { is_expected.to respond_with(:no_content) }
+    end
+
+    describe "#create" do
+      let(:params) { { name: "test", email: "john@example.com", password: "testtest", role: "user" } }
+
+      it "returns status 200" do
+        post :create, user: params, format: :json
+
+        is_expected.to respond_with(:ok)
+      end
+
+      context "When user is not valid" do
+        it "returns status 422" do
+          post :create, user: params.slice(:email), format: :json
+
+          is_expected.to respond_with(:unprocessable_entity)
+        end
+      end
+
     end
   end
 end
