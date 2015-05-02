@@ -15,6 +15,8 @@ describe User do
 
     it { is_expected.not_to allow_value("unknown_role").for(:role) }
     it { is_expected.not_to allow_value('sdf', '1fesa@', '@example.com').for(:email) }
+
+    it { is_expected.to have_many(:articles).dependent(:destroy) }
   end
 
   context "When user has guest role" do

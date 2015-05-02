@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
 
+  has_many :articles, dependent: :destroy
+
   ROLES = ["user", "admin", "guest"]
 
   validates :email, uniqueness: true, allow_nil: true
