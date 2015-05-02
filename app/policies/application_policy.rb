@@ -50,4 +50,10 @@ class ApplicationPolicy
       scope
     end
   end
+
+  private
+
+  def record_admin?
+    user.admin?
+  end
 end

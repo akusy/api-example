@@ -14,7 +14,4 @@ class UserPolicy < ApplicationPolicy
     user == record || record_admin?
   end
 
-  def record_admin?
-    user.admin?
-  end
 end
