@@ -17,6 +17,7 @@ describe User do
     it { is_expected.not_to allow_value('sdf', '1fesa@', '@example.com').for(:email) }
 
     it { is_expected.to have_many(:articles).dependent(:destroy) }
+    it { is_expected.to have_many(:comments).dependent(:destroy) }
   end
 
   context "When user has guest role" do

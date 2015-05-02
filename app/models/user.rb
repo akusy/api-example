@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
 
   has_many :articles, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   ROLES = ["user", "admin", "guest"]
 
