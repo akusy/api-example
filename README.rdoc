@@ -1,28 +1,32 @@
-== README
+== Ruby on Rails Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* API (REST, JSON) 
+* Secured by basic auth 
+* User mode ­ with 3 roles (admin, user, guest) 
+* Access limitation to given part of API depend of User role 
+* Admin has access to everything 
+* User can read all, create all, but update and deleted only his records 
+* Guest has only read access 
+* Article and comment models in relation (1 to many)
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+== cURL command examples:
+
+0. User API:
+    curl -H "Content-Type: application/json" -X GET --user user@example.com:testtest http://localhost:3000/api/users/1
+    curl -H "Content-Type: application/json" -X GET -d '{"page":"1"}' --user admin@example.com:testtest http://localhost:3000/api/users/
+    curl -H "Content-Type: application/json" -X POST -d '{"user": {"email":"xyz@xyz.xyz", "name":"xyz", "password":"xyzxyz", "role":"user"}}' --user user@example.com:testtest http://localhost:3000/api/users
+    curl -H "Content-Type: application/json" -X PUT -d '{"user": {"email":"xyz", "name":"xyz", "password":"xyz"}}' --user user@example.com:testtest http://localhost:3000/api/users/1
+    curl -H "Content-Type: application/json" -X DELETE --user user@example.com:testtest http://localhost:3000/api/users/1
+
+0. Article API:
+    curl -H "Content-Type: application/json" -X GET --user user@example.com:testtest http://localhost:3000/api/users/1/articles/1
+    curl -H "Content-Type: application/json" -X GET -d '{"page":"1"}' --user admin@example.com:testtest http://localhost:3000/api/users/1/articles
+    curl -H "Content-Type: application/json" -X POST -d '{"article": {"name":"xyz", "content":"xyzxyz"}}' --user user@example.com:testtest http://localhost:3000/api/users/1/articles
+    curl -H "Content-Type: application/json" -X PUT -d '{"article": {"name":"xyz", "content":"xyzxyz"}}' --user user@example.com:testtest http://localhost:3000/api/users/1/articles/1
+
+0. Comment API:
+    curl -H "Content-Type: application/json" -X GET --user user@example.com:testtest http://localhost:3000/api/users/1/articles/1/comments/1
+    curl -H "Content-Type: application/json" -X GET -d '{"page":"1"}' --user admin@example.com:testtest http://localhost:3000/api/users/1/articles/1/comments
+    curl -H "Content-Type: application/json" -X POST -d '{"comment": {"content":"xyzxyz"}}' --user user@example.com:testtest http://localhost:3000/api/users/1/articles/1/comments
+    curl -H "Content-Type: application/json" -X PUT -d '{"comment": {"content":"xyzxyz"}}' --user user@example.com:testtest http://localhost:3000/api/users/1/articles/1/comments/1
